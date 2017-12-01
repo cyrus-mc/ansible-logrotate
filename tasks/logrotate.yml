@@ -1,0 +1,8 @@
+- name: yum install/uninstall packages
+  yum: name={{ item.name }} state={{ item.state }}
+  with_items: "{{ logrotate_packages }}"
+
+- name: write logrotate rule
+  template: src=logrotate.d.j2 dest={{ logrotate_conf_dir }}/{{ item.name }}
+  with_items: "{{ logrotate_scripts }}"
+  when: logrotate_scripts is defined
